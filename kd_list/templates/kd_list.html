@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+
+<head>
+<meta http-equiv="KD-LIST" content="text/html; charset=utf-8">
+<title> СПИСОК КД </title>
+</head>
+
+<body>
+<a href="{% url 'logout' %}">(Log out)</a>
+ <table border="1">
+   <caption>Таблица проблемных кд</caption>
+
+   <tr>
+    <th>Дата публикации</th>
+    <th>Автор</th>
+    <th>Заголовок</th>
+    <th>Номер кд</th>
+<th>Состояние</th>
+   </tr>
+{% for kd in kd_l %}
+<tr>
+<td>{{ kd.created_date }}</td>
+<td>{{ kd.author }}</td>
+<td> <a href="/kd_list/kd/{{ kd.id }}/"> {{ kd.title }} </a></td>
+
+<td>{{ kd.kd }}</td>
+<td>{{ kd.state_kd }}</td>
+
+</tr>
+{% endfor %}
+  </table>
+
+
+</table>
+</body>
+</html> 

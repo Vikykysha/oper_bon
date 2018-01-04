@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+
+<head>
+<meta http-equiv="KD-LIST" content="text/html; charset=utf-8">
+<title> КД № {{ one_kd.pk }} </title>
+</head>
+
+<body>
+ <h1> KD № {{ one_kd.kd }} </h1>
+<table border="">
+   <tr>
+    <th>Дата публикации</th>
+    <th>Автор</th>
+    <th>Заголовок</th>
+    <th>Номер кд</th>
+<th>Описание проблемы</th>
+<th>Состояние</th>
+   </tr>
+
+<tr>
+<td>{{ one_kd.created_date }}</td>
+<td>{{ one_kd.author }}</td>
+<td> <a href="/kd_list/kd/{{ one_kd.pk }}/"> {{one_kd.title }} </a></td>
+
+<td>{{ one_kd.pk }}</td>
+<td>{{ one_kd.text }}</td>
+<td>{{ one_kd.state_kd }}</td>
+
+</tr>
+
+  </table>
+
+
+</table>
+</body>
+</html> 

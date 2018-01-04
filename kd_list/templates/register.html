@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+  <head>
+        <title>kd</title>
+<meta http-equiv="KD" content="text/html; charset=utf-8">
+       
+   </head>
+<body>
+
+    
+        {% if registered %}
+        <strong>thank you for joining us!</strong>
+              
+        {% else %}
+                   <h1>Are you ready to create your own profile?!</h1>
+         <strong>register here!</strong>
+
+        <form method="post" action="">{% csrf_token %}
+         
+            {{ user_form.as_p }}
+            {{ profile_form.as_p }}
+
+   
+            <input type="submit" name="submit" value="Register" />
+       {% endif %}
+        
+  </form>
+</body>
+</html>

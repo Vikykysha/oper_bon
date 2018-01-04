@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+
+<head>
+<meta http-equiv="KD-LIST" content="text/html; charset=utf-8">
+<title> Форма заполнения</title>
+</head>
+
+<body>
+
+
+
+
+
+
+ <h1>Заполнение проблемы по кд</h1>
+        <form method="POST" class="post-form">{% csrf_token %}
+            {{ form.as_p }}
+       
+            <button type="submit" class="save btn btn-default">Save</button>
+</form>
+
+
+</body>
+</html> 
