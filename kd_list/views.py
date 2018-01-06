@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from kd_list.models import Problem_kd,UserProfile
-from .forms import KdForm,UserProfileForm,UserForm
+from .forms import KdForm,UserProfileForm,UserForm,KdAdmForm
 from django.shortcuts import redirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -37,19 +37,6 @@ def kd(request, pk):
    return render(request, "one_kd.html", {"one_kd":one_kd}) 
 
 
-
-def kd_new(request):
-    
-    kd = Problem_kd.objects.order_by('-created_date')
-    if request.method == "POST":
-        form = KdForm(request.POST)
-        if form.is_valid():  
-                  kd=Problem_kd.objects.create(author = request.user,title=form.cleaned_data["title"],text=form.cleaned_data["text"],kd=form.cleaned_data["kd"])
-                  kd.save()
-        return redirect('list_all')
-    else:
-        form = KdForm()
-    return render(request, 'kd_edit.html', {'form': form})
 
 
 
@@ -104,12 +91,43 @@ def kd_remove(request, pk):
     return redirect('list_all')
 
 
+def kd_new(request):
+    
+    kd = Problem_kd.objects.order_by('-created_date')
+    if request.method == "POST":
+        if request.user.is_superuser:
+
+            form = KdAdmForm(request.POST,instance = kd) 
+            if form.is_valid():  
+                  kd=Problem_kd.objects.create(author = request.user,title=form.cleaned_data["title"],text=form.cleaned_data["text"],kd=form.cleaned_data["kd"],state_kd=form.cleaned_data["state_kd"])
+                  kd.save()
+        else:
+            form = KdForm(request.POST,instance = kd)
+            if form.is_valid():  
+                  kd=Problem_kd.objects.create(author = request.user,title=form.cleaned_data["title"],text=form.cleaned_data["text"],kd=form.cleaned_data["kd"])
+                  kd.save()       
+        return redirect('list_all')
+    else:
+        if request.user.is_superuser:
+           form = KdAdmForm()
+        else:
+           form = KdForm()
+    return render(request, 'kd_edit.html', {'form': form})
+
 def kd_edit(request, pk):
     kd = Problem_kd.objects.get( id=pk)
 
-    
+
     if request.method == "POST":
-        form = KdForm(request.POST, instance = kd)
+       
+
+        if request.user.is_superuser:
+
+            form = KdAdmForm(request.POST,instance = kd)
+        else:
+            form = KdForm(request.POST,instance = kd)
+        
+
         if form.is_valid():
             kd = form.save(commit=False)
             kd.author = request.user
@@ -118,5 +136,8 @@ def kd_edit(request, pk):
             form.save_m2m()
             return redirect('kd', pk=kd.id)
     else:
-         form = KdForm(instance=kd)
+         if request.user.is_superuser:
+             form = KdAdmForm()
+         else:
+             form = KdForm()
     return render(request, 'kd_edit.html',{'form': form})

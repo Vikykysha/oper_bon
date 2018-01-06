@@ -3,12 +3,18 @@ from .models import Problem_kd,UserProfile
 from django.contrib.auth.models import User
 
 
-
+class KdAdmForm(forms.ModelForm):
+    
+    class Meta:
+         model = Problem_kd
+         fields = ('title','text','kd','state_kd',)
 class KdForm(forms.ModelForm):
     
     class Meta:
          model = Problem_kd
          fields = ('title','text','kd',)
+
+
     
 
 
