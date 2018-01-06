@@ -22,7 +22,6 @@
 <td>{{ one_kd.created_date }}</td>
 <td>{{ one_kd.author }}</td>
 <td> <a href="/kd_list/kd/{{ one_kd.pk }}/"> {{one_kd.title }} </a></td>
-
 <td>{{ one_kd.pk }}</td>
 <td>{{ one_kd.text }}</td>
 <td>{{ one_kd.state_kd }}</td>
@@ -30,8 +29,10 @@
 </tr>
 
   </table>
+ 
+<a class="btn btn-default" href="/kd_list/kd/{{ one_kd.pk }}/remove">Удалить пост</a>
+<br>
+<a class="btn btn-default" href="/kd_list/kd/{{ one_kd.pk }}/kd_edit">Редактировать пост</a>
 
-
-</table>
 </body>
 </html> 

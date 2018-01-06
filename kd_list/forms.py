@@ -4,12 +4,12 @@ from django.contrib.auth.models import User
 
 
 
-class KdForm(forms.Form):
-
-   
-    title = forms.CharField(label="Title of the post",max_length=100,required=True)
-    text= forms.CharField(label="Text of your problem",widget=forms.Textarea,required=True)
-    kd_number = forms.CharField(label="Add number of kd",max_length=100,required=True)
+class KdForm(forms.ModelForm):
+    
+    class Meta:
+         model = Problem_kd
+         fields = ('title','text','kd',)
+    
 
 
 class UserForm(forms.ModelForm):

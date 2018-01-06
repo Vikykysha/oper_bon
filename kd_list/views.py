@@ -10,6 +10,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib.auth.models import User
 from django.template.context_processors import csrf
+from django.utils import timezone 
 
 # Create your views here.
 
@@ -43,7 +44,7 @@ def kd_new(request):
     if request.method == "POST":
         form = KdForm(request.POST)
         if form.is_valid():  
-                  kd=Problem_kd.objects.create(author = request.user,title=form.cleaned_data["title"],text=form.cleaned_data["text"],kd=form.cleaned_data["kd_number"])
+                  kd=Problem_kd.objects.create(author = request.user,title=form.cleaned_data["title"],text=form.cleaned_data["text"],kd=form.cleaned_data["kd"])
                   kd.save()
         return redirect('list_all')
     else:
@@ -94,3 +95,28 @@ def profile(request):
    user_id  = user.id  
    profile = UserProfile.objects.get(user_id= user_id)
    return render(request, 'profile.html',{'profile':profile})
+
+
+
+def kd_remove(request, pk):
+    kd = get_object_or_404(Problem_kd, id=pk)
+    kd.delete()
+    return redirect('list_all')
+
+
+def kd_edit(request, pk):
+    kd = Problem_kd.objects.get( id=pk)
+
+    
+    if request.method == "POST":
+        form = KdForm(request.POST, instance = kd)
+        if form.is_valid():
+            kd = form.save(commit=False)
+            kd.author = request.user
+            kd.published_date = timezone.now()
+            kd.save()
+            form.save_m2m()
+            return redirect('kd', pk=kd.id)
+    else:
+         form = KdForm(instance=kd)
+    return render(request, 'kd_edit.html',{'form': form})
