@@ -15,10 +15,18 @@ from django.template.context_processors import csrf
 
 def list_all(request):
    kd_l = Problem_kd.objects.all()
+   user = request.user
+   anon = user.is_anonymous
+   if not anon:
+      
+      kd_user = Problem_kd.objects.filter(author=user)
+      return render(request, "kd_list.html", {"kd_l":kd_l,"kd_user":kd_user})
+   else: 
+       return render(request, "kd_list.html", {"kd_l":kd_l})
    #s=""
    #for kd in kd_l:
    #    s+= kd.title + "<br>"   
-   return render(request, "kd_list.html", {"kd_l":kd_l}) 
+ 
 
 
 def kd(request, pk):

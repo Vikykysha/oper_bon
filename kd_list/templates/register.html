@@ -10,12 +10,12 @@
     
         {% if registered %}
         <strong>thank you for joining us!</strong>
-              
+               <a href="{% url 'login' %}">Now you can log in </a><br />
         {% else %}
                    <h1>Are you ready to create your own profile?!</h1>
          <strong>register here!</strong>
 
-        <form method="post" action="">{% csrf_token %}
+        <form method="post" action="{% url 'register' %}">{% csrf_token %}
          
             {{ user_form.as_p }}
             {{ profile_form.as_p }}

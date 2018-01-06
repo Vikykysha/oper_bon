@@ -7,8 +7,25 @@
 </head>
 
 <body>
+
+{% if user.is_authenticated %}
+    <a href="{% url 'kd_new' %}">Добавить новый кд</a>
+    
+   <p>Привет, <a href="profile/">{{ user.username }}</a><small>
 <a href="{% url 'logout' %}">(Log out)</a>
- <table border="1">
+{% endif %}
+<br>
+{% if not user.is_authenticated %}
+
+
+   Уже есть личный аккаунт? -> <a href="{% url 'login' %}">Войти на сайт</a>
+   Впервые на сайте? -> <a href="{% url 'register' %}">Зарегистрироваться</a>
+{% endif %}
+
+
+
+{% if user.is_superuser%} 
+<table border="1">
    <caption>Таблица проблемных кд</caption>
 
    <tr>
@@ -26,12 +43,33 @@
 
 <td>{{ kd.kd }}</td>
 <td>{{ kd.state_kd }}</td>
-
 </tr>
 {% endfor %}
-  </table>
 
+{% elif user.is_authenticated%}
+ <table border="1">
+   <caption>Таблица проблемных кд</caption>
+
+   <tr>
+    <th>Дата публикации</th>
+    <th>Автор</th>
+    <th>Заголовок</th>
+    <th>Номер кд</th>
+<th>Состояние</th>
+   </tr>
+{% for kd1 in kd_user %}
+<tr>
+<td>{{ kd1.created_date }}</td>
+<td>{{ kd1.author }}</td>
+<td> <a href="/kd_list/kd/{{ kd1.id }}/"> {{ kd1.title }} </a></td>
+
+<td>{{ kd1.kd }}</td>
+<td>{{ kd1.state_kd }}</td>
+</tr>
+{% endfor %}
+{% endif %}
 
 </table>
+
 </body>
 </html> 
