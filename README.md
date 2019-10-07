@@ -1,3 +1,3 @@
 # oper_bon
 
-Django projects which try to represent question/answer system for imaginary website
+Django project that represents question/answer system for imaginary website
